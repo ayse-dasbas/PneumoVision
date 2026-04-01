@@ -20,7 +20,7 @@ STANDARD_WD = 1e-2
 STANDARD_EPOCHS = 12
 STANDARD_BATCH_SIZE = 16
 
-AKTIF_KULLANICI = "AYSE" # Sudenaz için "SUDENAZ"
+AKTIF_KULLANICI = "SUDENAZ" # Ayşe için "AYSE"
 DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 MODELS_CONFIG = {
