@@ -1,14 +1,23 @@
 import os
 
 class Config:
+    # --- 🤖 COLAB KONTROLÜ VE ANA DİZİN ---
+    # Google Colab'da olup olmadığımızı kontrol ediyoruz
+    IN_COLAB = os.path.exists('/content/drive')
+    
+    if IN_COLAB:
+        # Colab'daysan Drive üzerindeki klasör yolunu buraya yaz (Klasör adını kontrol et!)
+        BASE_DIR = "/content/drive/MyDrive/Tez_Projesi" 
+    else:
+        # Yerel bilgisayardaysan mevcut hiyerarşiyi koru
+        BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
     # --- 📂 DİZİN YOLLARI ---
-    # scripts/utils içinde olduğumuz için 2 üst klasöre çıkıp ana dizini buluruz
-    BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
     DATA_DIR = os.path.join(BASE_DIR, "data")
     MODEL_SAVE_DIR = os.path.join(BASE_DIR, "models")
     OUTPUT_DIR = os.path.join(BASE_DIR, "outputs")
 
-    # CSV Dosya İsimleri (datasplit.py'den gelen isimler)
+    # CSV Dosya İsimleri
     TRAIN_CSV = "train_list.csv"
     VAL_CSV = "val_list.csv"
     TEST_CSV = "test_list.csv"
@@ -23,10 +32,16 @@ class Config:
     # --- ⚙️ EĞİTİM GENEL AYARLARI ---
     @staticmethod
     def get_batch_size():
-        # Train.py içindeki akıllı parametreler bunu ezecek ama 
-        # DataLoader'ın hata vermemesi için varsayılan olarak 32 bırakıyoruz.
+        # Train.py içindeki adil kıyaslama parametresi bunu ezecek
         return 16
 
-# Klasörlerin varlığını kontrol et, yoksa oluştur
+# --- 🛠️ OTOMATİK KLASÖR OLUŞTURMA ---
+# Eğitim başlamadan önce klasörlerin var olduğundan emin oluyoruz
 os.makedirs(Config.MODEL_SAVE_DIR, exist_ok=True)
 os.makedirs(Config.OUTPUT_DIR, exist_ok=True)
+
+# Colab'da çalışırken klasörlerin doğru bağlandığını teyit etmek için:
+if Config.IN_COLAB:
+    print(f"✅ Google Colab modunda çalışıyor. Çıktılar Drive'a kaydedilecek: {Config.BASE_DIR}")
+else:
+    print(f"💻 Yerel modda çalışıyor. Ana dizin: {Config.BASE_DIR}")
