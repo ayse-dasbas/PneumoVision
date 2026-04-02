@@ -4,8 +4,9 @@ from sklearn.model_selection import train_test_split
 from utils.config import Config # Config'i içeri alıyoruz
 
 # --- AYARLAR ---
-# Artık yolları manuel oluşturmuyoruz, Config'den alıyoruz
-DATA_PATH = os.path.join(Config.DATA_DIR, "chest_xray")
+# Resimlerin olduğu ham veri yolu: /Tez_Projesi/chest_xray
+DATA_PATH = os.path.join(Config.RAW_DATA_DIR, "chest_xray")
+# CSV'lerin kaydedileceği yer: /PneumoVision/data
 OUTPUT_PATH = Config.DATA_DIR 
 
 def get_patient_id(file_name):
@@ -27,6 +28,7 @@ def run_split():
     categories = ['NORMAL', 'PNEUMONIA']
 
     print(f"📂 Veri Kaynağı: {DATA_PATH}")
+    print(f"📁 CSV Çıktı Dizini: {OUTPUT_PATH}")
 
     for sub in sub_folders:
         for cat in categories:
@@ -40,7 +42,9 @@ def run_split():
             for img in files:
                 if img.lower().endswith(('.jpeg', '.jpg', '.png')):
                     patient_id = get_patient_id(img)
-                    # PATH DÜZELTMESİ: 'chest_xray' klasörünü de yola ekliyoruz
+                    
+                    # ÖNEMLİ: file_path 'chest_xray' ile başlamalı ki 
+                    # dataloader RAW_DATA_DIR ile birleştirdiğinde resme ulaşabilsin.
                     all_data.append({
                         'patient_id': patient_id,
                         'file_path': os.path.join('chest_xray', sub, cat, img),
@@ -49,10 +53,10 @@ def run_split():
 
     df = pd.DataFrame(all_data)
     if df.empty:
-        print("❌ HATA: Hiç resim bulunamadı! Veri yolunu kontrol et.")
+        print(f"❌ HATA: {DATA_PATH} içinde hiç resim bulunamadı! Lütfen Drive klasör yapını kontrol et.")
         return
 
-    # Hasta bazlı split (Patient-wise Split) - Tezin en güçlü noktası
+    # Hasta bazlı split (Patient-wise Split)
     unique_patients = df['patient_id'].unique()
     train_ids, temp_ids = train_test_split(unique_patients, test_size=0.3, random_state=42)
     val_ids, test_ids = train_test_split(temp_ids, test_size=0.5, random_state=42)
