@@ -24,8 +24,11 @@ AKTIF_KULLANICI = "SUDENAZ" # Ayşe için "AYSE"
 DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 MODELS_CONFIG = {
-    "SUDENAZ": ["convnextv2_base", "cvt_21"],
-    "AYSE": ["tf_efficientnetv2_b0", "seresnext50_32x4d"]
+    "SUDENAZ": ["tf_efficientnetv2_b0"],
+    "AYSE": ["seresnext50_32x4d"]
+    
+    #"SUDENAZ": ["convnextv2_base", "cvt_21"],
+    #"AYSE": ["tf_efficientnetv2_b0", "seresnext50_32x4d"]
 }
 
 # ==========================================================
