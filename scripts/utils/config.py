@@ -7,7 +7,7 @@ class Config:
     
     if IN_COLAB:
         # Colab'daysan Drive üzerindeki klasör yolunu buraya yaz (Klasör adını kontrol et!)
-        BASE_DIR = "/content/drive/MyDrive/Tez_Projesi" 
+        BASE_DIR = "/content/drive/MyDrive/Tez_Projesi/PneumoVision" 
     else:
         # Yerel bilgisayardaysan mevcut hiyerarşiyi koru
         BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
