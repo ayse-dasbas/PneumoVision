@@ -2,18 +2,23 @@ import os
 
 class Config:
     # --- 🤖 COLAB KONTROLÜ VE ANA DİZİN ---
-    # Google Colab'da olup olmadığımızı kontrol ediyoruz
     IN_COLAB = os.path.exists('/content/drive')
     
     if IN_COLAB:
-        # Colab'daysan Drive üzerindeki klasör yolunu buraya yaz (Klasör adını kontrol et!)
-        BASE_DIR = "/content/drive/MyDrive/Tez_Projesi/PneumoVision" 
+        # Kodların ve CSV'lerin duracağı ana klasör
+        BASE_DIR = "/content/drive/MyDrive/Tez_Projesi/PneumoVision"
+        # Ham resimlerin (chest_xray klasörünün) bulunduğu üst dizin
+        RAW_DATA_DIR = "/content/drive/MyDrive/Tez_Projesi"
     else:
-        # Yerel bilgisayardaysan mevcut hiyerarşiyi koru
+        # Yerel bilgisayar ayarı
         BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+        RAW_DATA_DIR = BASE_DIR
 
     # --- 📂 DİZİN YOLLARI ---
+    # CSV dosyalarının kaydedileceği ve okunacağı yer: /PneumoVision/data
     DATA_DIR = os.path.join(BASE_DIR, "data")
+    
+    # Modellerin ve sonuçların kaydedileceği yerler
     MODEL_SAVE_DIR = os.path.join(BASE_DIR, "models")
     OUTPUT_DIR = os.path.join(BASE_DIR, "outputs")
 
@@ -32,16 +37,18 @@ class Config:
     # --- ⚙️ EĞİTİM GENEL AYARLARI ---
     @staticmethod
     def get_batch_size():
-        # Train.py içindeki adil kıyaslama parametresi bunu ezecek
         return 16
 
 # --- 🛠️ OTOMATİK KLASÖR OLUŞTURMA ---
-# Eğitim başlamadan önce klasörlerin var olduğundan emin oluyoruz
+# Eğitim başlamadan önce gerekli klasörlerin (data, models, outputs) var olduğundan emin oluyoruz
+os.makedirs(Config.DATA_DIR, exist_ok=True)
 os.makedirs(Config.MODEL_SAVE_DIR, exist_ok=True)
 os.makedirs(Config.OUTPUT_DIR, exist_ok=True)
 
-# Colab'da çalışırken klasörlerin doğru bağlandığını teyit etmek için:
+# Bilgilendirme Mesajı
 if Config.IN_COLAB:
-    print(f"✅ Google Colab modunda çalışıyor. Çıktılar Drive'a kaydedilecek: {Config.BASE_DIR}")
+    print(f"✅ Google Colab modunda çalışıyor.")
+    print(f"📂 Kod ve CSV Dizini: {Config.BASE_DIR}")
+    print(f"🖼️ Ham Veri Dizini: {Config.RAW_DATA_DIR}")
 else:
     print(f"💻 Yerel modda çalışıyor. Ana dizin: {Config.BASE_DIR}")
