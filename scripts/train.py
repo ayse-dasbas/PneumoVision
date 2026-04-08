@@ -24,7 +24,7 @@ AKTIF_KULLANICI = "SUDENAZ"
 DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 MODELS_CONFIG = {
-    "SUDENAZ": ["maxvit_tiny_tf_224.in1k"], # ilk eğitim denemesi
+    "SUDENAZ": ["convnextv2_base.fcmae_ft_in22k_in1k"], # ilk eğitim denemesi
     "AYSE": ["seresnext50_32x4d"]
 
     #"SUDENAZ": ["convnextv2_base", "maxvit_tiny_tf_224.in1k"], #cvt_21 timm de yok
