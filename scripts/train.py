@@ -18,16 +18,16 @@ from utils.config import Config
 STANDARD_LR = 1e-4
 STANDARD_WD = 1e-2
 STANDARD_EPOCHS = 12
-STANDARD_BATCH_SIZE = 16 #OOM hatası gelirse 8 e düşür
+STANDARD_BATCH_SIZE = 8
 
 AKTIF_KULLANICI = "SUDENAZ"
 DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 MODELS_CONFIG = {
-    "SUDENAZ": ["cvt_21"], # ilk eğitim denemesi
+    "SUDENAZ": ["maxvit_tiny_tf_224.in1k"], # ilk eğitim denemesi
     "AYSE": ["seresnext50_32x4d"]
 
-    #"SUDENAZ": ["convnextv2_base", "cvt_21"],
+    #"SUDENAZ": ["convnextv2_base", "maxvit_tiny_tf_224.in1k"], #cvt_21 timm de yok
     #"AYSE": ["tf_efficientnetv2_b0", "seresnext50_32x4d"]
 }
 
