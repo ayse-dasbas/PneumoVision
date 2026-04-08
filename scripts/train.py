@@ -17,8 +17,8 @@ from utils.config import Config
 # ==========================================================
 STANDARD_LR = 1e-4
 STANDARD_WD = 1e-2
-STANDARD_EPOCHS = 1 # Duman testi için 1 yaptık, gerçek eğitimde 12 yaparsın
-STANDARD_BATCH_SIZE = 16
+STANDARD_EPOCHS = 12
+STANDARD_BATCH_SIZE = 16 #OOM hatası gelirse 8 e düşür
 
 AKTIF_KULLANICI = "SUDENAZ"
 DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
